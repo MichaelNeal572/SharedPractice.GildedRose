@@ -9,6 +9,7 @@ describe("Gilded Rose", () => {
 
   enum TestItems {
     Egg = "Egg",
+    Sulfuras = "Sulfuras, Hand of Ragnaros",
     AgedBrie = "Aged Brie",
     BackstagePasses = "Backstage passes to a TAFKAL80ETC concert",
     DexterityVest = "Dexterity Vest +5",
@@ -319,11 +320,11 @@ describe("Gilded Rose", () => {
       ]);
     });
 
-    it("GivenAnEggWith0QualityShouldDecrementSellinAndQuality", () => {
+    it("GivenSulfuraSellInShouldRemainTheSame", () => {
       //Arrange
-      const name = TestItems.Egg;
+      const name = TestItems.Sulfuras;
       const quality = 0;
-      const sellIn = 0;
+      const sellIn = 10;
 
       const items = [{ name, sellIn, quality }];
 
@@ -334,11 +335,12 @@ describe("Gilded Rose", () => {
       //Assert
       expect(result).toEqual([
         {
-          name: TestItems.Egg,
+          name: TestItems.Sulfuras,
           quality: 0,
-          sellIn: -1,
+          sellIn: 10,
         },
       ]);
     });
   });
+  
 });
