@@ -1,187 +1,104 @@
-import { GildedRose, Item } from '@/gilded-rose copy'
+import { GildedRose } from '@/gilded-rose copy'
 
 describe("Gilded Rose", () => {
-  it("should foo", () => {
-    const gildedRose = new GildedRose([new Item("foo", 0, 0)]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].name).toBe("foo");
-  });
+  // Items
+  //   Backstage passes to a TAFKAL80ETC concert
+  // Sulfuras, Hand of Ragnaros
+  // Aged Brie
+  // Dexterity Vest +5
 
-  it("does something with +5 Dexterity Vest", () => {
-    // Arrange
-    const item = new Item("+5 Dexterity Vest", 10, 20);
-    const expectedItem = new Item("+5 Dexterity Vest", 9, 19);
+  enum TestItems {
+    Egg = "Egg",
+    AgedBrie = "Aged Brie",
+    BackstagePasses = "Backstage passes to a TAFKAL80ETC concert",
+    DexterityVest = "Dexterity Vest +5",
+  }
 
-    const gildedRose = new GildedRose([item]);
+  it("GivenAnEggShouldDecrementSellinAndQuality", () => {
+    //Arrange
+    const name = TestItems.Egg;
+    const quality = 1;
+    const sellIn = 0;
+
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
     //Act
-    const items = gildedRose.updateQuality();
+    const result = sut.updateQuality();
+
     //Assert
-    expect(items).toEqual([expectedItem]);
+    expect(result).toEqual([
+      {
+        name: TestItems.Egg,
+        quality: 0,
+        sellIn: -1,
+      },
+    ]);
   });
 
-  it("does something with Elixir of the Mongoose", () => {
-    // Arrange
-    const item = new Item("Elixir of the Mongoose", 5, 7);
-    const expectedItem = new Item("Elixir of the Mongoose", 4, 6);
+  it("GivenAnEggWith0QualityShouldDecrementSellinAndQuality", () => {
+    //Arrange
+    const name = TestItems.Egg;
+    const quality = 0;
+    const sellIn = 0;
 
-    const gildedRose = new GildedRose([item]);
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
     //Act
-    const items = gildedRose.updateQuality();
+    const result = sut.updateQuality();
+
     //Assert
-    expect(items).toEqual([expectedItem]);
+    expect(result).toEqual([
+      {
+        name: TestItems.Egg,
+        quality: 0,
+        sellIn: -1,
+      },
+    ]);
   });
 
-  it("does something with Backstage passes to a TAFKAL80ETC concert (15, 20)", () => {
-    // Arrange
-    const item = new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20);
-    const expectedItem = new Item(
-      "Backstage passes to a TAFKAL80ETC concert",
-      14,
-      21
-    );
+  it("GivenAnAgedBrieShouldDecrementSellinAndQuality", () => {
+    //Arrange
+    const name = TestItems.AgedBrie;
+    const quality = 1;
+    const sellIn = 0;
 
-    const gildedRose = new GildedRose([item]);
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
     //Act
-    const items = gildedRose.updateQuality();
-    //Assert
-    expect(items).toEqual([expectedItem]);
-  });
-  it("does something with Backstage passes to a TAFKAL80ETC concert (10, 49)", () => {
-    // Arrange
-    const item = new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49);
-    const expectedItem = new Item(
-      "Backstage passes to a TAFKAL80ETC concert",
-      9,
-      50
-    );
+    const result = sut.updateQuality();
 
-    const gildedRose = new GildedRose([item]);
+    //Assert
+    expect(result).toEqual([
+      {
+        name: TestItems.AgedBrie,
+        quality: 3,
+        sellIn: -1,
+      },
+    ]);
+  });
+
+  it("GivenAnBackstagePassesShouldDecrementSellinAndQuality", () => {
+    //Arrange
+    const name = TestItems.BackstagePasses;
+    const quality = 1;
+    const sellIn = 0;
+
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
     //Act
-    const items = gildedRose.updateQuality();
+    const result = sut.updateQuality();
+
     //Assert
-    expect(items).toEqual([expectedItem]);
-  });
-  it("does something with Backstage passes to a TAFKAL80ETC concert (5, 49)", () => {
-    // Arrange
-    const item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49);
-    const expectedItem = new Item(
-      "Backstage passes to a TAFKAL80ETC concert",
-      4,
-      50
-    );
-
-    const gildedRose = new GildedRose([item]);
-    //Act
-    const items = gildedRose.updateQuality();
-    //Assert
-    expect(items).toEqual([expectedItem]);
-  });
-
-  describe("Sulfuras, Hand of Ragnaros", () => {
-    it("does something with Sulfuras, Hand of Ragnaros", () => {
-      // Arrange
-      const item = new Item("Sulfuras, Hand of Ragnaros", 0, 80);
-      const expectedItem = new Item("Sulfuras, Hand of Ragnaros", 0, 80);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([item]);
-    });
-    it("does something with Sulfuras, Hand of Ragnaros", () => {
-      // Arrange
-      const item = new Item("Sulfuras, Hand of Ragnaros", -1, 80);
-      const expectedItem = new Item("Sulfuras, Hand of Ragnaros", -1, 80);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-  });
-
-  describe("Aged Brie", () => {
-    it("does something with Aged Brie", () => {
-      // Arrange
-      const item = new Item("Aged Brie", 1, 80);
-      const expectedItem = new Item("Aged Brie", 0, 80);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-    it("does something with Aged Brie", () => {
-      // Arrange
-      const item = new Item("Aged Brie", 0, 80);
-      const expectedItem = new Item("Aged Brie", -1, 80);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-    it("does something with Aged Brie", () => {
-      // Arrange
-      const item = new Item("Aged Brie", -1, 80);
-      const expectedItem = new Item("Aged Brie", -2, 80);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-  });
-
-  describe("Unkown Item", () => {
-    it("does something with Unkown Item", () => {
-      // Arrange
-      const item = new Item("Unkown Item", 1, 80);
-      const expectedItem = new Item("Unkown Item", 0, 79);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-    it("does something with Unkown Item", () => {
-      // Arrange
-      const item = new Item("Unkown Item", 50, 80);
-      const expectedItem = new Item("Unkown Item", 49, 79);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-    it("does something with Unkown Item", () => {
-      // Arrange
-      const item = new Item("Unkown Item", 0, 80);
-      const expectedItem = new Item("Unkown Item", -1, 78);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
-    it("does something with Unkown Item", () => {
-      // Arrange
-      const item = new Item("Unkown Item", -1, 80);
-      const expectedItem = new Item("Unkown Item", -2, 78);
-
-      const gildedRose = new GildedRose([item]);
-      //Act
-      const items = gildedRose.updateQuality();
-      //Assert
-      expect(items).toEqual([expectedItem]);
-    });
+    expect(result).toEqual([
+      {
+        name: TestItems.BackstagePasses,
+        quality: 0,
+        sellIn: -1,
+      },
+    ]);
   });
 });
