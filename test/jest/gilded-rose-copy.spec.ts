@@ -101,4 +101,48 @@ describe("Gilded Rose", () => {
       },
     ]);
   });
+
+  it("GivenAnAgedBrieAndBackAndQuantityGreaterThen0ShouldDecreaseQuantityBy1", () => {
+    //Arrange
+    const name = TestItems.AgedBrie;
+    const quality = 2;
+    const sellIn = 0;
+
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
+    //Act
+    const result = sut.updateQuality();
+
+    //Assert
+    expect(result).toEqual([
+      {
+        name: TestItems.AgedBrie,
+        quality: 4,
+        sellIn: -1,
+      },
+    ]);
+  });
+
+  it("GivenAnAgedBrieAndQualityGreaterThen50", () => {
+    //Arrange
+    const name = TestItems.AgedBrie;
+    const quality = 50;
+    const sellIn = 0;
+
+    const items = [{ name, sellIn, quality }];
+
+    const sut = new GildedRose(items);
+    //Act
+    const result = sut.updateQuality();
+
+    //Assert
+    expect(result).toEqual([
+      {
+        name: TestItems.AgedBrie,
+        quality: 50,
+        sellIn: -1,
+      },
+    ]);
+  });
 });
