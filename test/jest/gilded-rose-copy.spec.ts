@@ -410,6 +410,69 @@ describe("Gilded Rose", () => {
         },
       ]);
     });
+    it("GivenAnBackstagePassWithSellInIsNegativeAndQualityOneShouldDecrementQualityByItSelf", () => {
+      //Arrange
+      const name = TestItems.BackstagePasses;
+      const quality = 1;
+      const sellIn = -1;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.BackstagePasses,
+          quality: 0,
+          sellIn: -2,
+        },
+      ]);
+    });
+    it("GivenAnBackstagePassWithSellInIsNegativeAndQualityNegativeShouldSetQualityToZero", () => {
+      //Arrange
+      const name = TestItems.BackstagePasses;
+      const quality = -50;
+      const sellIn = -1;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.BackstagePasses,
+          quality: 0,
+          sellIn: -2,
+        },
+      ]);
+    });
+    it("GivenAgeBrieAndSellInNegativeOneAndQualityLessThanFiftyShouldIncrementQualityByOne", () => {
+      //Arrange
+      const name = TestItems.AgedBrie;
+      const quality = 49;
+      const sellIn = -1;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.AgedBrie,
+          quality: 50,
+          sellIn: -2,
+        },
+      ]);
+    });
   });
 
   for (const { input, expected } of [
