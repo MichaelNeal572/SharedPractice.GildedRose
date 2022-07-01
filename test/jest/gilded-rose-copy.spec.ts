@@ -1,4 +1,4 @@
-import { GildedRose } from '@/gilded-rose copy'
+import { GildedRose, Item } from "@/gilded-rose-copy";
 
 describe("Gilded Rose", () => {
   // Items
@@ -34,6 +34,28 @@ describe("Gilded Rose", () => {
           name: TestItems.AgedBrie,
           quality: 4,
           sellIn: -1,
+        },
+      ]);
+    });
+
+    it("GivenAnAgedBrieWithNegativeSellInAndBackAndQuantityGreaterThen0ShouldDecreaseQuantityBy1", () => {
+      //Arrange
+      const name = TestItems.AgedBrie;
+      const quality = 2;
+      const sellIn = -10;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.AgedBrie,
+          quality: 4,
+          sellIn: -11,
         },
       ]);
     });
@@ -123,6 +145,28 @@ describe("Gilded Rose", () => {
           name: TestItems.BackstagePasses,
           quality: 0,
           sellIn: -1,
+        },
+      ]);
+    });
+
+    it("GivenAnBackstageWithNegativeSellInPassesShouldDecrementSellinAndQuality", () => {
+      //Arrange
+      const name = TestItems.BackstagePasses;
+      const quality = 1;
+      const sellIn = -10;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.BackstagePasses,
+          quality: 0,
+          sellIn: -11,
         },
       ]);
     });
@@ -297,6 +341,31 @@ describe("Gilded Rose", () => {
       ]);
     });
   });
+
+  describe(`Item is: ${TestItems.Sulfuras}`, () => {
+    it("GivenSulfuraSellInShouldRemainTheSame", () => {
+      //Arrange
+      const name = TestItems.Sulfuras;
+      const quality = 0;
+      const sellIn = 10;
+
+      const items = [{ name, sellIn, quality }];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([
+        {
+          name: TestItems.Sulfuras,
+          quality: 0,
+          sellIn: 10,
+        },
+      ]);
+    });
+  });
+
   describe(`Item is: ${TestItems.Egg}`, () => {
     it("GivenAnEggShouldDecrementSellinAndQuality", () => {
       //Arrange
@@ -320,11 +389,11 @@ describe("Gilded Rose", () => {
       ]);
     });
 
-    it("GivenSulfuraSellInShouldRemainTheSame", () => {
+    it("GivenAnEggWithSellIn1ShouldDecrementSellinAndQuality", () => {
       //Arrange
-      const name = TestItems.Sulfuras;
-      const quality = 0;
-      const sellIn = 10;
+      const name = TestItems.Egg;
+      const quality = 1;
+      const sellIn = 1;
 
       const items = [{ name, sellIn, quality }];
 
@@ -335,12 +404,63 @@ describe("Gilded Rose", () => {
       //Assert
       expect(result).toEqual([
         {
-          name: TestItems.Sulfuras,
+          name: TestItems.Egg,
           quality: 0,
-          sellIn: 10,
+          sellIn: 0,
         },
       ]);
     });
   });
-  
+
+  for (const { input, expected } of [
+    {
+      input: new Item("+5 Dexterity Vest", 10, 20),
+      expected: new Item("+5 Dexterity Vest", 9, 19),
+    },
+    {
+      input: new Item("Aged Brie", 2, 0),
+      expected: new Item("Aged Brie", 1, 1),
+    },
+    {
+      input: new Item("Elixir of the Mongoose", 5, 7),
+      expected: new Item("Elixir of the Mongoose", 4, 6),
+    },
+    {
+      input: new Item("Sulfuras, Hand of Ragnaros", 0, 80),
+      expected: new Item("Sulfuras, Hand of Ragnaros", 0, 80),
+    },
+    {
+      input: new Item("Sulfuras, Hand of Ragnaros", -1, 80),
+      expected: new Item("Sulfuras, Hand of Ragnaros", -1, 80),
+    },
+    {
+      input: new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+      expected: new Item("Backstage passes to a TAFKAL80ETC concert", 14, 21),
+    },
+    {
+      input: new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+      expected: new Item("Backstage passes to a TAFKAL80ETC concert", 9, 50),
+    },
+    {
+      input: new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+      expected: new Item("Backstage passes to a TAFKAL80ETC concert", 4, 50),
+    },
+    {
+      input: new Item("Conjured Mana Cake", 3, 6),
+      expected: new Item("Conjured Mana Cake", 2, 5),
+    },
+  ]) {
+    it(`Acceptance ${input.name} ${input.quality} ${input.sellIn}`, () => {
+      //Arrange
+
+      const items = [input];
+
+      const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([expected]);
+    });
+  }
 });
