@@ -1,4 +1,5 @@
 import { GildedRose, Item } from "@/gilded-rose-copy";
+import { GildedRose as OldGildedRose } from "@/gilded-rose";
 
 describe("Gilded Rose", () => {
   // Items
@@ -475,7 +476,7 @@ describe("Gilded Rose", () => {
     });
   });
 
-  for (const { input, expected } of [
+  const acceptanceTestCases = [
     {
       input: new Item("+5 Dexterity Vest", 10, 20),
       expected: new Item("+5 Dexterity Vest", 9, 19),
@@ -532,13 +533,29 @@ describe("Gilded Rose", () => {
       input: new Item("Conjured Mana Cake", 3, 6),
       expected: new Item("Conjured Mana Cake", 2, 5),
     },
-  ]) {
+  ];
+  for (const { input, expected } of acceptanceTestCases) {
     it(`Acceptance ${input.name} ${input.quality} ${input.sellIn}`, () => {
       //Arrange
 
-      const items = [input];
+      const items = [new Item(input.name, input.sellIn, input.quality)];
 
       const sut = new GildedRose(items);
+      //Act
+      const result = sut.updateQuality();
+
+      //Assert
+      expect(result).toEqual([expected]);
+    });
+  }
+
+  for (const { input, expected } of acceptanceTestCases) {
+    it(`Old Acceptance ${input.name} ${input.quality} ${input.sellIn}`, () => {
+      //Arrange
+
+      const items = [new Item(input.name, input.sellIn, input.quality)];
+
+      const sut = new OldGildedRose(items);
       //Act
       const result = sut.updateQuality();
 
