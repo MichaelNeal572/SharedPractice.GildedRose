@@ -481,6 +481,26 @@ describe("Gilded Rose", () => {
       expected: new Item("+5 Dexterity Vest", 9, 19),
     },
     {
+      input: new Item("+5 Dexterity Vest", -2, 0),
+      expected: new Item("+5 Dexterity Vest", -3, 0),
+    },
+    {
+      input: new Item("+5 Dexterity Vest", -2, 1),
+      expected: new Item("+5 Dexterity Vest", -3, 0),
+    },
+    {
+      input: new Item("+5 Dexterity Vest", -2, 2),
+      expected: new Item("+5 Dexterity Vest", -3, 0),
+    },
+    {
+      input: new Item("+5 Dexterity Vest", -2, 3),
+      expected: new Item("+5 Dexterity Vest", -3, 1),
+    },
+    {
+      input: new Item("+5 Dexterity Vest", -2, 4),
+      expected: new Item("+5 Dexterity Vest", -3, 2),
+    },
+    {
       input: new Item("Aged Brie", 2, 0),
       expected: new Item("Aged Brie", 1, 1),
     },
