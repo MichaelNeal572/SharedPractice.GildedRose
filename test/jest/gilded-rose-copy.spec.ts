@@ -518,6 +518,14 @@ describe("Gilded Rose", () => {
       expected: new Item("Sulfuras, Hand of Ragnaros", -1, 80),
     },
     {
+      input: new Item("Sulfuras, Hand of Ragnaros", 2, 80),
+      expected: new Item("Sulfuras, Hand of Ragnaros", 2, 80),
+    },
+    {
+      input: new Item("Sulfuras, Hand of Ragnaros", 5, 80),
+      expected: new Item("Sulfuras, Hand of Ragnaros", 5, 80),
+    },
+    {
       input: new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
       expected: new Item("Backstage passes to a TAFKAL80ETC concert", 14, 21),
     },
